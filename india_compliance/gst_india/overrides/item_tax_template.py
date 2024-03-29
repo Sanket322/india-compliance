@@ -1,6 +1,6 @@
 import frappe
 from frappe import _
-from frappe.utils import rounded
+from frappe.utils import rounded,flt
 
 from india_compliance.gst_india.overrides.transaction import get_valid_accounts
 
@@ -23,6 +23,7 @@ def validate_zero_tax_options(doc):
 
 
 def validate_tax_rates(doc):
+    doc.gst_rate = flt(doc.gst_rate)
     if doc.gst_rate < 0 or doc.gst_rate > 100:
         frappe.throw(
             _("GST Rate should be between 0 and 100"), title=_("Invalid GST Rate")
